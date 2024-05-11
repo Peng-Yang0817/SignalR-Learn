@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script src="~/Ctrls/Index.js"></script>
+
+<h1>{{title}}</h1>
+
+
+<div ng-show="!bindState">
+    <input type="text" ng-model="userName" placeholder="請輸入用戶名..." />
+    <button ng-click="SaveUserName()">儲存用戶名</button>
+</div>
+
+<div ng-show="bindState">
+    <p>Hi {{userName}}, 你可以開始發言, 請留意console 的訊息歐~</p>
+    <input type="text" ng-model="userMsg" />
+    <button class="btn btn-success" id="myCallBackBtn" ng-click="SendMsgAndClearMsgBox()"> 送出 </button>
+</div>
+
+
+
