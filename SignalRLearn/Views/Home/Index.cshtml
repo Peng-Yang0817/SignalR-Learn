@@ -3,19 +3,109 @@
 }
 <script src="~/Ctrls/Index.js"></script>
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .chat-container {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        height: 50vh;
+        overflow-y: auto;
+    }
+
+    .message {
+        margin-bottom: 15px;
+        overflow: hidden;
+    }
+
+        .message .name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .message .content {
+            background-color: #86d97b;
+            border-radius: 15px;
+            padding: 10px 15px;
+            display: inline-block;
+            max-width: 70%;
+            word-wrap: break-word;
+            color: #fff;
+        }
+
+        .message .time {
+            font-size: 0.8em;
+            color: #666;
+            margin-left: 10px;
+            float: right;
+        }
+
+    input[type="text"] {
+        width: calc(100% - 100px);
+        padding: 10px;
+        margin-top: 15px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .btn-success {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #86d97b;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .btn-success:hover {
+            background-color: #5cb85c;
+        }
+
+    .welcome-text {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+    .right-align {
+        text-align: right;
+    }
+</style>
+
 <h1>{{title}}</h1>
 
 
 <div ng-show="!bindState">
     <input type="text" ng-model="userName" placeholder="請輸入用戶名..." />
-    <button ng-click="SaveUserName()">儲存用戶名</button>
+    <button ng-click="SaveUserName()" class="btn btn-info" style="color:#fff">儲存用戶名</button>
 </div>
 
 <div ng-show="bindState">
-    <p>Hi {{userName}}, 你可以開始發言, 請留意console 的訊息歐~</p>
-    <input type="text" ng-model="userMsg" />
-    <button class="btn btn-success" id="myCallBackBtn" ng-click="SendMsgAndClearMsgBox()"> 送出 </button>
+    <div class="container" ng-show="bindState">
+        <p class="welcome-text">Hi {{userName}}, 歡迎來到聊天室！</p>
+        <div class="chat-container">
+            <div class="message" ng-repeat="data in chartList" ng-class="{ 'right-align': data.Name === userName }">
+                <div class="name">{{data.Name}}</div>
+                <div class="content">{{data.Message}}</div>
+                <div ng-show="data.Name !== userName" class="time">{{data.Time | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+            </div>
+        </div>
+        <input type="text" ng-model="userMsg" placeholder="輸入你的訊息..." ng-focus="onInputFocus()" ng-keypress="onKeyPress($event)" />
+        <button class="btn btn-success" id="myCallBackBtn" ng-click="SendMsgAndClearMsgBox()"> 送出 </button>
+    </div>
 </div>
-
-
-
